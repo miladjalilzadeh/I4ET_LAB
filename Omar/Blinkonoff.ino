@@ -8,14 +8,14 @@ void loop()
   if (Serial.available() > 0) 
   {
     num = Serial.read();
-    //77=M
-    if(num == 77)
+    //44=O
+    if(num == 44)
     {
       Serial.println(num);
       digitalWrite(LED_BUILTIN, LOW);
     }
-    //68=D
-    if(num == 68)
+    //88=R
+    if(num == 88)
     {
       Serial.println(num);
       digitalWrite(LED_BUILTIN, HIGH);
