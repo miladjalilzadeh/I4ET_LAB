@@ -1,4 +1,4 @@
-Char=a;
+char a;
 void setup() {
   Serial.begin(9600);
   pinMode(LED_BUILTIN, OUTPUT); 
@@ -10,12 +10,12 @@ void loop()
     a = Serial.read();
     if(a == 'O')
     {
-      Serial.println(num);
+      Serial.println(a);
       digitalWrite(LED_BUILTIN, LOW);
     }
     if(a == 'R')
     {
-      Serial.println(num);
+      Serial.println(a);
       digitalWrite(LED_BUILTIN, HIGH);
     }
   }
