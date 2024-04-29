@@ -1,36 +1,47 @@
 // SPDX-License-Identifier: Unlicenced
 pragma solidity 0.8.18;
+
 contract DemoContract {
+    address public owner;
 
- address public owner;
- struct Receivers {
- string name;
- uint256 tokens;
- }
- mapping(address => Receivers) public users;
+    struct Receivers {
+        string name;
+        uint256 tokens;
+    }
 
- modifier onlyOwner(){
- require(msg.sender == owner);
- _;
- }
+    mapping(address => Receivers) public users;
 
- constructor(){
- owner = msg.sender;
- users[owner].tokens = 100;
- }
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only the owner can call this function");
+        _;
+    }
 
- function double(uint _value) public pure returns (uint){
- return _value*2;
- }
+    constructor() {
+        owner = msg.sender;
+        users[owner].tokens = 100;
+    }
 
- function register(string memory _name) public{
- users[msg.sender].name = _name;
- }
+    function double(uint value) public pure returns (uint) {
+        return value * 2;
+    }
 
- function giveToken(address _receiver, uint256 _amount) onlyOwner
-public{
- require(users[owner].tokens >= _amount);
- users[owner].tokens -= _amount;
- users[_receiver].tokens += _amount;
- }
+    function register(string memory name) public {
+        users[msg.sender].name = name;
+    }
+
+    function buyTokens() public payable {
+        uint tokenPrice = 2 ether;
+
+        uint minEtherAmount = tokenPrice;
+
+        require(msg.value >= minEtherAmount, "Insufficient Ether sent");
+
+        uint tokensToPurchase = msg.value / tokenPrice;
+
+        require(users[owner].tokens >= tokensToPurchase, "Not enough tokens available for purchase");
+
+        users[owner].tokens -= tokensToPurchase;
+
+        users[msg.sender].tokens += tokensToPurchase;
+    }
 }
